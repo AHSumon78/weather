@@ -1,0 +1,22 @@
+{% if daily %}
+<table class="card-body">
+    <tr>
+        <td>{{daily.day}}</td>
+    </tr>
+    <tr>
+        <td><img src="http://openweathermap.org/img/w/{{daily.icon}}.png" alt="image" style ="width: 120px"></td>
+    </tr>
+    <tr>
+        <td>{{daily.description}}</td>
+    </tr>
+    <tr>
+        <td>{{daily.temp_max}}</td>
+    </tr>
+    <tr>
+        <td>{{daily.temp_min}}</td>
+    </tr>
+    <tr>
+        <td>{{daily.deg}} {{daily.speed}}</td>
+    </tr>
+</table>
+{% endif %}

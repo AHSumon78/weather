@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/cerulean/bootstrap.min.css"
+        integrity="sha512-vaImhtQoaCXvevCM/UK+8ND/df0kiQWLtR65wgq0AWShEXLpWHMve0oGgU0q1gq1MbbyEuAhMMlqNmZd7s7wTQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Weather App</title>
+
+<body style="background-color: black;">
+    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+        <div class="container" style="height: 15px;">
+            <a href="../" class="navbar-brand">Weather App <span style="color: rgb(39,117,161)">
+                    <strong> -Django
+                        Framework</strong>
+                </span> </a>
+            <a href="https://openweathermap.org" class="navbar-tech">Openweather - get your API</a>
+        </div>
+    </div>
+    <br><br><br><br>
+    <div id="jumbotron" class="jumbotron" style="text-align: center;  margin-top: -50px; height: 100px;">
+        <h4 class="display-5">Weather Desktop App</h4>
+        <h7>Using Python Language and Django Framework</h7>
+
+        <img src="{% static 'images/weather2.png' %}" class="image" style="width:100px;margin-bottom: -50px;">
+
+    </div>
+
+    </div>
+    <br><br><br>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <form method="post" class="col-md">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" class="form-control" name="city" placeholder="Choose your City"
+                    style="text-align: center;">
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-success">Search</button>
+                </div>
+            </div>
+        </form>
+    </nav>
+    <div>
+        {% if data %}
+        <div class="row">
+            <div class="col d-flex justify-content-center ">
+                <div class=" card text-white bg-light mb-6">
+                    <div class=" card-body" style=" border: 1px solid black; border-radius: 10px;">
+                        <h3>{{data.city}}</h3>
+                        <h7 style="color: black;"><span>Coordinate : </span>{{data.coordinate}}</h7>
+                    </div>
+                    <div class=" card-body">
+                        <table style=" border: 1px solid black; border-radius: 10px;">
+                            <tr>
+                                <td>
+                                    <h6>Current Weather</h6>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h6 style="text-align: left;">Time {{data.time}}</h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2"> <img src="http://openweathermap.org/img/w/{{data.icon}}.png"
+                                        alt="image" style="width: 120px"></td>
+                                <td rowspan="2">
+                                    <h3 style="text-align: left;">{{data.temp}}</h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <h6 style="text-align: right;"><span class="badge badge-primary"
+                                            style="color: black;">Real feels : </span>{{data.feels_like}}</h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5 style="text-align: center;">{{data.description}}</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6><span class="badge badge-primary" style="color: black;">Wind</span></h6>
+                                </td>
+                                <td>
+                                    <h6 style="text-align: right;">{{data.wind_deg}} {{data.wind_speed}} km/h</h6>
+                                </td>
+                                <td>
+                                    <h6><span class="badge badge-primary" style="color: black;">Pressure</span></h6>
+                                </td>
+                                <td>
+                                    <h6 style="text-align: right;">{{data.pressure}} mb</h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6><span class="badge badge-primary" style="color: black;">Humidity</span></h6>
+                                </td>
+                                <td>
+                                    <h6 style="text-align: right;">{{data.humidity}}%</h6>
+                                </td>
+                                <td>
+                                    <h6><span class="badge badge-primary" style="color: black;">Visibility</span></h6>
+                                </td>
+                                <td>
+                                    <h6 style="text-align: right;">{{data.visibility}}</h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6><span class="badge badge-primary" style="color: black;">Max Temperature</span>
+                                    </h6>
+                                </td>
+                                <td>
+                                    <h6 style="text-align: right;">{{max}}°C</h6>
+                                </td>
+                                <td>
+                                    <h6><span class="badge badge-primary" style="color: black;">Min Temperature</span>
+                                    </h6>
+                                </td>
+                                <td>
+                                    <h6 style="text-align: right;">{{min}}°C</h6>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="col d-flex justify-content-center ">
+            <div class=" center">
+                <div class=" card-body">
+                    <table class="center">
+                        <tr>
+                            <h2 style="text-align: center;">5-Day Forecast</h2>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td>
+                                <h1>&ensp;</h1>
+                            </td>
+                            {% for daily in daily_forecast %}
+                            <td bgcolor="white" style=" border: 1px solid black; border-radius: 10px;">
+                                <h5>{{daily.Day}}</h5>
+                                <img src="http://openweathermap.org/img/w/{{daily.icon}}.png" alt="image"
+                                    style="width: 50px">
+                                <h5>{{daily.description}}</h5>
+                                <h5>Max :{{daily.max}}</h5>
+                                <h5>Min :{{daily.min}}</h5>
+                                <h5>&emsp;{{daily.deg}} {{daily.speed}}</h5>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %} 
+</body>
+
+</html>
